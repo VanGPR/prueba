@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   
   ngOnInit(){
     this.service.getBranches()
+    this.service.getPr()
   }
 
   }

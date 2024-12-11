@@ -18,6 +18,11 @@ export class GithubService {
     const branches = await octokit.request('GET /repos/{owner}/{repo}/branches', {   owner: 'VanGPR',   repo: 'prueba',   headers: {     'X-GitHub-Api-Version': '2022-11-28'  } })
     console.log(branches);
   }
+  async getPr(){
+    const octokit = new Octokit({   auth: token});
+    const prs = await octokit.request('GET /repos/{owner}/{repo}/pulls', {   owner: 'VanGPR',   repo: 'prueba',   headers: {     'X-GitHub-Api-Version': '2022-11-28'  } })
+    console.log(prs);
+  }
 }
 
 export interface Branches {
