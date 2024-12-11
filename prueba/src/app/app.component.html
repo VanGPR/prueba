@@ -1,19 +1,2 @@
 <h1>Hola</h1>
-
-<div>
-  <h1>Ramas del repositorio</h1>
-  <ul>
-    <li *ngFor="let branch of branches">{{ branch.name }}</li>
-  </ul>
-</div>
-
-<div>
-  <h1>Pull Requests Activos</h1>
-  <ul>
-    <li *ngFor="let pr of pullRequests">
-      {{ pr.title }} (Autor: {{ pr.user.login }})
-    </li>
-  </ul>
-</div>
-
 <router-outlet />

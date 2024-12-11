@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-const token = "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";
+import { Octokit } from 'octokit';
+import { environment } from '../environments/environment';
+const token = environment.apiKey;
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +13,31 @@ export class GithubService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener ramas del repositorio
-  getBranches(owner: string, repo: string): Observable<any> {
-    const url = `${this.baseUrl}/repos/${owner}/${repo}/branches`;
-    const headers = new HttpHeaders().set('Authorization', `token ${this.token}`);
-    return this.http.get(url, { headers });
+  async getBranches(){
+    const octokit = new Octokit({   auth: token});
+    const branches = await octokit.request('GET /repos/{owner}/{repo}/branches', {   owner: 'VanGPR',   repo: 'prueba',   headers: {     'X-GitHub-Api-Version': '2022-11-28'  } })
+    console.log(branches);
   }
+}
 
-  // Obtener pull requests activos del repositorio
-  getActivePullRequests(owner: string, repo: string): Observable<any> {
-    const url = `${this.baseUrl}/repos/${owner}/${repo}/pulls?state=open`;
-    const headers = new HttpHeaders().set('Authorization', `token ${this.token}`);
-    return this.http.get(url, { headers });
-  }
+export interface Branches {
+  name:           string;
+  commit:         Commit;
+  protected:      boolean;
+  protection:     Protection;
+  protection_url: string;
+}
+
+export interface Commit {
+  sha: string;
+  url: string;
+}
+
+export interface Protection {
+  required_status_checks: RequiredStatusChecks;
+}
+
+export interface RequiredStatusChecks {
+  enforcement_level: string;
+  contexts:          string[];
 }
